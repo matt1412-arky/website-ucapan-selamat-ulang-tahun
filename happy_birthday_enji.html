@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Enji 🎂</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@700&family=Lato:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --rose: #e8738a;
+        --blush: #f7c5d0;
+        --gold: #d4af7a;
+        --cream: #fff8f5;
+        --deep: #3a1a2e;
+        --lavender: #c9a7c0;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: var(--deep);
+        font-family: "Lato", sans-serif;
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      /* Particle canvas */
+      #particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .wrapper {
+        position: relative;
+        z-index: 1;
+        max-width: 520px;
+        margin: 0 auto;
+        padding: 20px 16px 60px;
+      }
+
+      /* ---- HEADER ---- */
+      .header {
+        text-align: center;
+        padding: 40px 0 20px;
+        opacity: 0;
+        animation: fadeUp 1s ease forwards 0.3s;
+      }
+
+      .header .for-you {
+        font-family: "Lato", sans-serif;
+        font-weight: 300;
+        letter-spacing: 6px;
+        font-size: 11px;
+        color: var(--gold);
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+
+      .header h1 {
+        font-family: "Dancing Script", cursive;
+        font-size: clamp(52px, 14vw, 80px);
+        color: var(--cream);
+        line-height: 1;
+        text-shadow: 0 0 40px rgba(232, 115, 138, 0.5);
+      }
+
+      .header h1 span {
+        color: var(--rose);
+      }
+
+      .header .name {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: clamp(28px, 8vw, 48px);
+        color: var(--gold);
+        margin-top: 4px;
+        letter-spacing: 2px;
+      }
+
+      /* ---- MAIN PHOTO ---- */
+      .main-photo {
+        margin: 28px 0;
+        opacity: 0;
+        animation: fadeUp 1s ease forwards 0.7s;
+      }
+
+      .main-photo .frame {
+        position: relative;
+        border-radius: 28px;
+        overflow: hidden;
+        border: 3px solid var(--gold);
+        box-shadow:
+          0 0 60px rgba(232, 115, 138, 0.3),
+          0 20px 60px rgba(0, 0, 0, 0.5);
+      }
+
+      .main-photo img {
+        width: 100%;
+        display: block;
+        object-fit: cover;
+        height: 380px;
+      }
+
+      .main-photo .overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(58, 26, 46, 0.7) 0%,
+          transparent 50%
+        );
+      }
+
+      .main-photo .caption {
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-family: "Dancing Script", cursive;
+        font-size: 22px;
+        color: var(--cream);
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+      }
+
+      /* ---- MESSAGE ---- */
+      .message {
+        background: rgba(255, 248, 245, 0.05);
+        border: 1px solid rgba(212, 175, 122, 0.3);
+        border-radius: 20px;
+        padding: 28px 24px;
+        margin: 20px 0;
+        text-align: center;
+        opacity: 0;
+        animation: fadeUp 1s ease forwards 1s;
+        backdrop-filter: blur(6px);
+      }
+
+      .message .emoji-row {
+        font-size: 28px;
+        margin-bottom: 16px;
+        letter-spacing: 6px;
+      }
+
+      .message p {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        color: var(--cream);
+        font-size: 16px;
+        line-height: 1.8;
+        opacity: 0.9;
+      }
+
+      .message .from {
+        margin-top: 16px;
+        font-family: "Lato", sans-serif;
+        font-weight: 300;
+        letter-spacing: 4px;
+        font-size: 11px;
+        color: var(--gold);
+        text-transform: uppercase;
+      }
+
+      /* ---- PHOTO GRID ---- */
+      .section-label {
+        text-align: center;
+        font-family: "Lato", sans-serif;
+        font-weight: 300;
+        letter-spacing: 5px;
+        font-size: 10px;
+        color: var(--lavender);
+        text-transform: uppercase;
+        margin: 28px 0 14px;
+        opacity: 0;
+        animation: fadeUp 0.8s ease forwards 1.3s;
+      }
+
+      .photo-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        opacity: 0;
+        animation: fadeUp 1s ease forwards 1.5s;
+      }
+
+      .photo-grid .cell {
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        border: 2px solid rgba(212, 175, 122, 0.2);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .photo-grid .cell:hover {
+        transform: scale(1.03);
+        box-shadow: 0 12px 40px rgba(232, 115, 138, 0.3);
+      }
+
+      .photo-grid .cell.tall {
+        grid-row: span 2;
+      }
+
+      .photo-grid img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        min-height: 140px;
+      }
+
+      /* ---- STRIP ---- */
+      .photo-strip {
+        display: flex;
+        gap: 8px;
+        margin: 10px 0;
+        opacity: 0;
+        animation: fadeUp 1s ease forwards 1.8s;
+        overflow-x: auto;
+        padding-bottom: 6px;
+        scrollbar-width: none;
+      }
+      .photo-strip::-webkit-scrollbar {
+        display: none;
+      }
+
+      .photo-strip .cell {
+        flex: 0 0 120px;
+        height: 160px;
+        border-radius: 14px;
+        overflow: hidden;
+        border: 2px solid rgba(212, 175, 122, 0.2);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        transition: transform 0.3s ease;
+      }
+      .photo-strip .cell:hover {
+        transform: scale(1.04);
+      }
+      .photo-strip img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* ---- CLOSING ---- */
+      .closing {
+        text-align: center;
+        padding: 40px 0 20px;
+        opacity: 0;
+        animation: fadeUp 1s ease forwards 2.1s;
+      }
+
+      .closing .wish {
+        font-family: "Dancing Script", cursive;
+        font-size: clamp(32px, 9vw, 52px);
+        color: var(--rose);
+        text-shadow: 0 0 30px rgba(232, 115, 138, 0.6);
+        line-height: 1.2;
+      }
+
+      .closing .heart {
+        font-size: 36px;
+        display: block;
+        margin-top: 12px;
+        animation: heartbeat 1.4s ease infinite;
+      }
+
+      .closing .year {
+        font-family: "Lato", sans-serif;
+        font-weight: 300;
+        letter-spacing: 8px;
+        font-size: 12px;
+        color: var(--lavender);
+        text-transform: uppercase;
+        margin-top: 16px;
+      }
+
+      /* ---- ANIMATIONS ---- */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes heartbeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        15% {
+          transform: scale(1.25);
+        }
+        30% {
+          transform: scale(1);
+        }
+        45% {
+          transform: scale(1.15);
+        }
+      }
+
+      /* ---- DIVIDER ---- */
+      .divider {
+        text-align: center;
+        color: var(--gold);
+        font-size: 18px;
+        letter-spacing: 8px;
+        margin: 20px 0;
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="particles"></canvas>
+
+    <div class="wrapper">
+      <!-- HEADER -->
+      <div class="header">
+        <div class="for-you">✦ Special For ✦</div>
+        <h1>Happy<br /><span>Birthday</span></h1>
+        <div class="name">Enji</div>
+      </div>
+
+      <!-- MAIN PHOTO -->
+      <div class="main-photo">
+        <div class="frame">
+          <img
+            src="assets/WhatsApp Image 2026-04-09 at 15.25.19 (2).jpeg"
+            alt="Enji"
+            onerror="
+              this.src = 'assets/WhatsApp Image 2026-04-09 at 15.25.23.jpeg'
+            "
+          />
+          <div class="overlay"></div>
+          <div class="caption">✨ Selamat Ulang Tahun ✨</div>
+        </div>
+      </div>
+
+      <!-- MESSAGE -->
+      <div class="message">
+        <div class="emoji-row">🌸 🎂 🎉</div>
+        <p>
+          Di hari istimewa ini, semoga semua impian dan harapanmu terwujud.
+          Semoga hidupmu selalu dipenuhi kebahagiaan, kesehatan, dan cinta yang
+          tiada habisnya. Kamu luar biasa, Enji — teruslah bersinar! ✨
+        </p>
+        <div class="from">— with love 💕</div>
+      </div>
+
+      <div class="divider">· · ✦ · ·</div>
+
+      <!-- PHOTO GRID -->
+      <div class="section-label">✦ Momen Indah ✦</div>
+
+      <div class="photo-grid">
+        <div class="cell tall">
+          <img
+            src="assets/WhatsApp Image 2026-04-09 at 15.25.19.jpeg"
+            alt="Enji"
+          />
+        </div>
+        <div class="cell">
+          <img
+            src="assets/WhatsApp Image 2026-04-09 at 15.25.22.jpeg"
+            alt="Enji"
+          />
+        </div>
+        <div class="cell">
+          <img
+            src="assets/WhatsApp Image 2026-04-09 at 15.25.20.jpeg"
+            alt="Enji"
+          />
+        </div>
+      </div>
+
+      <!-- PHOTO STRIP -->
+      <div class="photo-strip">
+        <div class="cell">
+          <img
+            src="assets/WhatsApp Image 2026-04-09 at 15.25.23 (1).jpeg"
+            alt="Enji"
+          />
+        </div>
+        <div class="cell">
+          <img
+            src="assets/WhatsApp Image 2026-04-09 at 15.25.21.jpeg"
+            alt="Enji"
+          />
+        </div>
+        <div class="cell">
+          <img
+            src="assets/WhatsApp Image 2026-04-09 at 15.25.22 (1).jpeg"
+            alt="Enji"
+          />
+        </div>
+        <div class="cell">
+          <img
+            src="assets/WhatsApp Image 2026-04-09 at 15.25.20 (1).jpeg"
+            alt="Enji"
+          />
+        </div>
+        <div class="cell">
+          <img
+            src="assets/WhatsApp Image 2026-04-09 at 15.25.21 (1).jpeg"
+            alt="Enji"
+          />
+        </div>
+      </div>
+
+      <div class="photo-grid" style="margin-top: 10px">
+        <div class="cell">
+          <img
+            src="assets/WhatsApp Image 2026-04-09 at 15.25.19 (1).jpeg"
+            alt="Enji"
+          />
+        </div>
+        <div class="cell tall">
+          <img
+            src="assets/WhatsApp Image 2026-04-09 at 15.25.23.jpeg"
+            alt="Enji"
+          />
+        </div>
+        <div class="cell">
+          <img
+            src="assets/WhatsApp Image 2026-04-09 at 15.25.22 (2).jpeg"
+            alt="Enji"
+          />
+        </div>
+      </div>
+
+      <div class="divider" style="margin-top: 24px">· · ✦ · ·</div>
+
+      <!-- CLOSING -->
+      <div class="closing">
+        <div class="wish">Semoga Selalu<br />Bahagia &amp; Sehat</div>
+        <span class="heart">💖</span>
+        <div class="year">2026</div>
+      </div>
+    </div>
+
+    <script>
+      // Falling petals/particles
+      const canvas = document.getElementById("particles");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+
+      const particles = [];
+      const EMOJIS = ["🌸", "✨", "🎀", "💕", "⭐", "🌟", "💫"];
+
+      class Particle {
+        constructor() {
+          this.reset(true);
+        }
+        reset(init = false) {
+          this.x = Math.random() * canvas.width;
+          this.y = init ? Math.random() * canvas.height : -30;
+          this.size = Math.random() * 14 + 8;
+          this.speed = Math.random() * 0.8 + 0.3;
+          this.drift = (Math.random() - 0.5) * 0.4;
+          this.rotation = Math.random() * Math.PI * 2;
+          this.rotSpeed = (Math.random() - 0.5) * 0.02;
+          this.emoji = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+          this.opacity = Math.random() * 0.5 + 0.2;
+        }
+        update() {
+          this.y += this.speed;
+          this.x += this.drift;
+          this.rotation += this.rotSpeed;
+          if (this.y > canvas.height + 30) this.reset();
+        }
+        draw() {
+          ctx.save();
+          ctx.globalAlpha = this.opacity;
+          ctx.translate(this.x, this.y);
+          ctx.rotate(this.rotation);
+          ctx.font = `${this.size}px serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(this.emoji, 0, 0);
+          ctx.restore();
+        }
+      }
+
+      for (let i = 0; i < 35; i++) particles.push(new Particle());
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((p) => {
+          p.update();
+          p.draw();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+    </script>
+  </body>
+</html>
